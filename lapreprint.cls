@@ -15,7 +15,6 @@
 % FONT: unicode-math, opensans
 %
 
-\RequirePackage[english]{babel}
 \RequirePackage{calc}
 \RequirePackage{etoolbox}
 \RequirePackage{regexpatch}

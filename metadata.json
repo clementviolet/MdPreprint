@@ -1,0 +1,59 @@
+{
+    "title": "MdPreprint: A Preprint for Template for pandoc LaTeX & Word",
+    "shorttitle": "A Preprint for Template for pandoc LaTeX & Word",
+    "fontsize": "9pt",
+    "classoption":[
+        "biorxiv",
+        "doublespacing",
+        "lineno"
+    ],
+    "polyglossia-lang": {
+            "name": "en-UK",
+            "options": ""
+    },
+    "appendix": true,
+    "author": [
+        "Clément Violet",
+        "Mikkel Roald-Arbøl"
+    ],
+    "authorMeta": [
+        {
+            "author": "Clément Violet",
+            "orcid": "0000-0001-6217-5891",
+            "leadAuthor": true,
+            "correspondantAuthor": true,
+            "affiliationId": "1"
+        },
+        {
+            "author": "Mikkel Roald-Arbøl",
+            "orcid": "0000-0002-9998-0058",
+            "leadAuthor": false,
+            "correspondantAuthor": false,
+            "affiliationId": "2"
+        }
+    ],
+    "metadata": {
+        "leadAuthor": "Violet",
+        "correspondanceEmail": "https://github.com/clementviolet/MdPreprint/issues",
+        "adress": "IFREMER, Centre de Bretagne, DYNECO LEBCO, Plouzané 29280, France.",
+        "dataAvailability": "Data availability statement. Preprocessed data could be available e.g. on \\href{https://zenodo.org/}{Zenodo}.",
+        "funding": "",
+        "competingInterest": "The authors declare no competing interests."
+    },
+    "affiliation":[
+        {
+            "id": "1",
+            "name": "IFREMER, Centre de Bretagne, DYNECO LEBCO, Plouzané, France"
+        },
+        {
+            "id": "2",
+            "name": "School of Life Sciences, Univeristy of Sussex, Brighton and Hove, Great Britain"
+        }
+    ],
+    "description": "This document is intended purely as a demo for the manuscript building system.",
+    "keywords": [""],
+    "link-citations": true,
+    "link-bibliography": true,
+    "fignos-plus-name": ["Figure", "Figures"]
+  }
+  
