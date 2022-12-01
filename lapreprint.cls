@@ -218,10 +218,10 @@
 \setcounter{secnumdepth}{0}
 \RequirePackage[explicit]{titlesec}
 \titleformat{\section}
-  {\color{MediumGrey}\Large\bfseries}
+  {\color{black}\Large\bfseries}
   {\thesection}{}{#1}[]
 \titleformat{\subsection}
-  {\large\bfseries}
+  {\color{MediumGrey}\large\bfseries}
   {\thesubsection}{}{#1}[]
 \titleformat{\subsubsection}
   {\large}
@@ -359,8 +359,8 @@
 }{\end{adjustwidth}}
 
 \appto{\appendix}{%
-  \captionsetup*[figure]{name={Appendix \arabic{appendix}---figure },font={color=darkColour,small},skip=\smallskipamount}%
-  \captionsetup*[table]{name={Appendix \arabic{appendix}---table },font={color=darkColour,small}}%
+  \captionsetup*[figure]{name={Appendix \arabic{appendix}---figure },font={color=black,small},skip=\smallskipamount}%
+  \captionsetup*[table]{name={Appendix \arabic{appendix}---table },font={color=black,small}}%
 }
 
 \newcounter{figsupp}
@@ -517,8 +517,8 @@
   \setcounter{table}{0}
   \refstepcounter{appendix}%
   \clearpage%
-  \patchcmd{\ttlf@section}{MediumGrey}{darkColour}{}{}
-  \noindent{\bfseries\Large\color{MediumGrey}Appendix \arabic{appendix}\par}
+  \patchcmd{\ttlf@section}{black}{darkColour}{}{}
+  \noindent{\bfseries\Large\color{black}Appendix \arabic{appendix}\par}
   \nolinenumbers%
   \begin{mdframed}[hidealllines=true,backgroundcolor=lightColour!10,leftline=true,linecolor=lightColour,linewidth=1em]
   \if@reqslineno\addtolength{\linenumbersep}{2em}\internallinenumbers\fi
