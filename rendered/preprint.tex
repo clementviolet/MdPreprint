@@ -1,0 +1,617 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LaPreprint: PREPRINT TEMPLATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Here I could talk about what one should do in this document.
+% Instead I'll refer you to the explore on your own and check the Github Repo. :-)
+% Line spacing is 1.2 by default (can't be smaller).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PREAMBLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Declare document class
+\documentclass[9pt,biorxiv,doublespacing,lineno]{lapreprint}
+% Choose between "biorxiv", "medrxiv", "arxiv" and "chemrxiv". Otherwise defaults "Preprint".
+% Choose between "blue" and "red" colour scheme. Defaults to "blue".
+% Use the "onehalfspacing" option for 1.5 line spacing.
+% Use the "doublespacing" option for 2.0 line spacing.
+% Use the "lineno" option for line numbers.
+% Use the "endfloat" option to place floats after the bibliography.
+
+% Import packages
+% \usepackage{lipsum}     % Required to insert dummy text
+\usepackage[version=4]{mhchem} % For chemical notation
+\usepackage{siunitx}    % For SI units
+\usepackage{pdflscape}  % For putting pages in landscape mode
+\usepackage{rotating}   % For rotating specific elements
+\usepackage{textgreek}  % Greek symbols
+\usepackage{gensymb}    % Symbols
+\usepackage[misc]{ifsym} % For the \Letter symbol
+\usepackage{orcidlink}  % For the \orcidlink
+\usepackage{listings}   % For inserting code chunks
+\usepackage{colortbl}   % For Knitr table colouring
+\usepackage{tabularx}   % For making Knitr tables compatible
+\usepackage{longtable}  % For multi-page tables
+\usepackage{subcaption}
+\usepackage{cleveref} % For fig, table and equation numbering
+\usepackage{multirow}
+\usepackage{snotez}     % For sidenote environments. enotez for endnotes
+\usepackage{csquotes}   % For language-based quote rules (helps BiBLaTeX)
+
+\providecommand{\tightlist}{% Command for list
+\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%% Make sure that the picture stay on the page
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+%% pandoc-tablenos: required package
+\usepackage{caption}
+
+%% pandoc-tablenos: environment to disable table caption prefixes
+\makeatletter
+\newcounter{tableno}
+\newenvironment{tablenos:no-prefix-table-caption}{
+  \caption@ifcompatibility{}{
+    \let\oldthetable\thetable
+    \let\oldtheHtable\theHtable
+    \renewcommand{\thetable}{tableno:\thetableno}
+    \renewcommand{\theHtable}{tableno:\thetableno}
+    \stepcounter{tableno}
+    \captionsetup{labelformat=empty}
+  }
+}{
+  \caption@ifcompatibility{}{
+    \captionsetup{labelformat=default}
+    \let\thetable\oldthetable
+    \let\theHtable\oldtheHtable
+    \addtocounter{table}{-1}
+  }
+}
+\makeatother
+
+% Make declarations
+\DeclareSIUnit\Molar{M}
+
+% Please note that these options may affect formatting. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BIBLIOGRAPHY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \usepackage[			% use biblatex for bibliography
+% 	backend=biber,      % use biber or bibtex backend
+%     style=authoryear,   % choose style
+% 	natbib=true,		% allow natbib commands
+% 	hyperref=true,	    % activate hyperref support
+% 	alldates=year,      % only show year (not month)
+% ]{biblatex}
+
+% Update to your bibliography file
+% \addbibresource{src/bibliography.bib}
+
+% For Pandoc citeproc module support
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Paper title
+\title{MdPreprint: A Preprint for Template for pandoc LaTeX \& Word}
+
+% Authors - you can use \orcidlink{} and \authfn{} - see contribution note
+
+% You need to have white spaces around the \orcidlink{} command
+% otherwise, LaTeX will raise errors
+\author[ \orcidlink{0000-0001-6217-5891} 1\Letter]{Clément Violet}
+\author[ \orcidlink{0000-0002-9998-0058} 2]{Mikkel Roald-Arbøl}
+
+% Affiliations
+\affil[1]{IFREMER, Centre de Bretagne, DYNECO LEBCO, Plouzané, France}
+\affil[2]{School of Life Sciences, Univeristy of Sussex, Brighton and
+Hove, Great Britain}
+
+% Other metadata. Feel free to add your own
+\metadata[]{\Letter\hspace{.5ex} For correspondence}{\url{https://github.com/clementviolet/MdPreprint/issues}}
+\metadata[]{Present address}{IFREMER, Centre de Bretagne, DYNECO LEBCO,
+Plouzané 29280, France.}
+\metadata[]{Data availability}{Data availability statement. Preprocessed
+data could be available e.g.~on \href{https://zenodo.org/}{Zenodo}.}
+\metadata[]{Competing interests}{The authors declare no competing
+interests.}
+% \metadata[\authfn{1}\authfn{2}\authfn{3}]{}{Here's a few symbols to denote contribution specifics, e.g. authors who contributed equally to the work.}
+
+% Surname of the lead author(s) for the running footer
+\leadauthor{Violet}
+\shorttitle{A Preprint for Template for pandoc rendering LaTeX \& Word}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+% % \input{src/chapters/abstract}
+\begin{abstract}
+
+This tempalte is an adaptation of
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+sodales sapien est, id laoreet metus elementum a. Vestibulum sed magna
+iaculis, vulputate velit quis, tempus arcu. Duis a lectus nisi.
+Curabitur dictum vehicula magna. Pellentesque elementum molestie sapien
+quis lobortis. In finibus libero est, in consectetur ante malesuada ac.
+Aliquam aliquam, lectus vitae tincidunt feugiat, est lectus vulputate
+lorem, vitae varius ante lacus et sem. Aliquam erat volutpat. Nam
+feugiat quam quis odio egestas, et porta risus laoreet. Ut congue dolor
+id sapien eleifend, sit amet vulputate dolor elementum. Sed scelerisque
+orci sapien.
+\end{abstract}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Use \# section and \#\# subsection tags to organise your document.
+Cross-referencing is handle by pandoc-xnos filters (I guess ?). You can
+use XX commands for cross-referencing sectional headings.
+
+Nullam lacus velit, posuere quis tortor in, commodo porttitor tellus.
+Vestibulum ac dolor ac sapien convallis lacinia. Nam facilisis iaculis
+risus non accumsan. Quisque vitae ligula sed dolor tempus facilisis.
+Curabitur a porta neque. Pellentesque pulvinar ante vitae mauris
+consequat commodo. Aenean ante diam, auctor nec efficitur non, blandit a
+lacus. Donec sed vehicula nulla. Maecenas pellentesque tellus eget erat
+pharetra, vitae tincidunt ante dapibus. In sit amet sem ac metus viverra
+viverra a id ex. Aenean in neque mattis, rutrum metus ac, consequat
+nunc. Phasellus egestas elit elit, eget elementum elit porttitor et.
+Aenean eu egestas nibh, a ultrices erat.
+
+Ut sit amet tortor a est dignissim sollicitudin vitae eu nulla. Nam
+pretium, lorem et lobortis vestibulum, felis magna lobortis ante, vitae
+dapibus enim orci at elit. Aenean lectus orci, eleifend eu ipsum sit
+amet, sodales suscipit felis. Donec eu enim non est placerat iaculis.
+Aliquam ultrices fringilla scelerisque. Donec ut dui tellus. Lorem ipsum
+dolor sit amet, consectetur adipiscing elit. Integer sodales tempor
+porta.
+
+\hypertarget{figures-and-tables}{%
+\subsection{Figures and Tables}\label{figures-and-tables}}
+
+You can use all kind of tables supported by pandoc. See the
+\href{https://pandoc.org/MANUAL.html\#tables}{pandoc} documentation for
+more informations.
+
+\begin{longtable}[]{@{}
+  >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1389}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3611}}@{}}
+\caption{Here's the caption.
+\label{tbl:exemple}}\label{tbl:exemple}\tabularnewline
+\toprule()
+\begin{minipage}[b]{\linewidth}\centering
+Centered Header
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default Aligned
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Right Aligned
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Left Aligned
+\end{minipage} \\
+\midrule()
+\endfirsthead
+\toprule()
+\begin{minipage}[b]{\linewidth}\centering
+Centered Header
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default Aligned
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Right Aligned
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Left Aligned
+\end{minipage} \\
+\midrule()
+\endhead
+First & row & 12.0 & Example of a row that spans multiple lines. \\
+Second & row & 5.0 & Here's another one. Note the blank line between
+rows. \\
+\bottomrule()
+\end{longtable}
+
+You can refere to a tables like this \cref{tbl:exemple} (see
+\href{https://github.com/tomduck/pandoc-tablenos}{pandoc-tablenos}
+documentation for more informations).
+
+Figures should be saved in the src/figures folder. You can include as
+follow (see
+\href{https://pandoc.org/MANUAL.html\#extension-implicit_figures}{pandoc}
+documentation for more informations).
+
+\begin{figure}
+\hypertarget{fig:brighton}{%
+\centering
+\includegraphics{figures/brighton.jpeg}
+\caption{Photo of lovely Brighton by
+\href{https://unsplash.com/es/@sanekovs?utm_source=unsplash\&utm_medium=referral\&utm_content=creditCopyText}{Alex
+Ovs} on
+\href{https://unsplash.com/s/photos/brighton?utm_source=unsplash\&utm_medium=referral\&utm_content=creditCopyText}{Unsplash}}\label{fig:brighton}
+}
+\end{figure}
+
+Of course, you can refer to a figure, in the same way as the tables
+\cref{fig:brighton} (see
+\href{https://github.com/tomduck/pandoc-fignos}{pandoc-fignos}
+documentation for more informations). --\textgreater{}
+
+\hypertarget{citations}{%
+\subsection{Citations}\label{citations}}
+
+For citation, the module citeproc of pandoc is used, like this
+Bezuidenhout and Havemann
+(\protect\hyperlink{ref-Bezuidenhout2021}{2021}) (see
+\href{https://pandoc.org/MANUAL.html\#citations}{pandoc citeproc} and
+\href{https://pandoc.org/MANUAL.html\#extension-citations}{pandoc
+citations} documentation)
+
+Sed vestibulum bibendum arcu vel bibendum. Curabitur lobortis ipsum
+vitae dolor feugiat imperdiet. Donec sit amet eros accumsan, vestibulum
+leo eu, mattis nibh. Vestibulum ante ipsum primis in faucibus orci
+luctus et ultrices posuere cubilia curae; Proin vehicula mattis erat ut
+dapibus. Nullam at dictum leo. Suspendisse lobortis sed justo id
+ultrices. Proin sem lectus, eleifend a vestibulum et, vulputate at
+turpis. Phasellus interdum tincidunt tortor quis luctus.
+
+Aenean imperdiet, ante eu ornare lacinia, massa leo rhoncus ex, nec
+varius arcu ante sed sem. Cras laoreet sapien vel sem finibus, ut
+scelerisque libero rhoncus. Curabitur non nunc at quam porta venenatis
+at ut metus. In hac habitasse platea dictumst. Etiam dignissim gravida
+mauris, a pellentesque eros porttitor non. Suspendisse vel suscipit
+odio. Nam volutpat fringilla tortor, vitae vulputate ligula vehicula et.
+Sed elementum, arcu eget porttitor tincidunt, ante tortor tincidunt
+justo, eget consequat enim enim nec enim.
+
+\hypertarget{mathematics}{%
+\subsection{Mathematics}\label{mathematics}}
+
+Pandoc and this template work great with maths! But be aware that
+numbering equations are not working anymore in a Microsoft Docx document
+(\href{https://github.com/tomduck/pandoc-eqnos/pull/64}{see this issue}
+on Github).
+
+Let \(X_1, X_2, \ldots, X_n\) be a sequence of independent and
+identically distributed random variables with \(\text{E}[X_i] = \mu\)
+and \(\text{Var}[X_i] = \sigma^2 < \infty\)
+
+\LaTeX{} is great at typesetting mathematics \(abc\). Let
+\(X_1, X_2, \ldots, X_n\) be a sequence of independent and identically
+distributed random variables with \(\text{E}[X_i] = \mu\) and
+\(\text{Var}[X_i] = \sigma^2 < \infty\), and let
+
+\begin{equation}
+S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
+    = \frac{1}{n}\sum_{i}^{n} X_i
+\label{eq:mean}\end{equation}
+
+denote their mean. Then as \(n\) approaches infinity, the random
+variables \(\sqrt{n}(S_n - \mu)\) converge in distribution to a normal
+\(\mathcal{N}(0, \sigma^2)\). You can refer to an equation like this
+\cref{eq:mean} (see
+\href{https://github.com/tomduck/pandoc-eqnos\#markdown-syntax}{pandoc-eqnos}
+for more informations).
+
+In augue turpis, ullamcorper vel luctus interdum, ultricies luctus dui.
+Nulla eu elit et felis lacinia mattis. Aenean accumsan sapien felis, ac
+pulvinar elit tempor ultricies. Duis blandit nisl tortor, nec congue
+neque vehicula in. Suspendisse vestibulum ornare purus, quis aliquet
+erat egestas vitae. Curabitur commodo commodo pellentesque. Vestibulum
+aliquet, orci ut vestibulum hendrerit, lacus mauris luctus sapien, quis
+auctor odio enim non quam. Mauris quam nulla, accumsan sed pharetra eu,
+rhoncus ut velit. Integer risus turpis, tincidunt sit amet eleifend sed,
+tristique sit amet lorem.
+
+Fusce vestibulum nunc in rhoncus faucibus. Phasellus posuere nunc odio,
+quis posuere enim facilisis vitae. Nulla volutpat mi purus, a commodo
+nibh fermentum eget. In rhoncus hendrerit urna, vel feugiat sapien. Sed
+tellus massa, ultricies non lacinia at, convallis id dui. Aliquam
+scelerisque scelerisque sapien quis congue. Integer ac viverra nulla.
+Sed placerat blandit orci vel euismod. Suspendisse in quam in mauris
+iaculis ultrices. Nullam at urna pharetra, finibus nunc eu, mollis
+tellus. Sed condimentum risus ac sem interdum interdum.
+
+Vivamus iaculis eget leo ac dapibus. Donec vitae finibus lectus. Nulla
+sagittis, lectus blandit aliquet porta, massa arcu commodo felis, ut
+tincidunt nibh urna at quam. Curabitur auctor at metus id vulputate.
+Donec placerat, felis in iaculis condimentum, urna magna ornare eros, in
+pulvinar urna nunc quis elit. Curabitur at porta justo, non consequat
+elit. Nulla et eleifend orci, eu placerat augue. Vestibulum ante ipsum
+primis in faucibus orci luctus et ultrices posuere cubilia curae; In
+vehicula ante augue, molestie iaculis metus tempus at. Morbi placerat
+nec sapien vitae tristique. Suspendisse laoreet, nibh sed tincidunt
+tincidunt, diam elit iaculis nisl, et condimentum leo lacus eu diam.
+Curabitur scelerisque augue nec urna mattis posuere. Nam lobortis erat
+et feugiat placerat.
+
+\hypertarget{lists}{%
+\subsection{Lists}\label{lists}}
+
+You can make lists with automatic numbering \dots
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Like this,
+\item
+  and like this.
+\end{enumerate}
+
+\ldots or bullet points\ldots{}
+
+\begin{itemize}
+\tightlist
+\item
+  Like this,
+\item
+  and like this.
+\end{itemize}
+
+\ldots or words and descriptions\ldots{}
+
+\begin{description}
+\tightlist
+\item[Word]
+Definition
+\item[Concept]
+Explanation
+\item[Idea]
+Text
+\end{description}
+
+Some filler text, because empty templates look really poorly.
+
+Vestibulum et nisl quis mauris pretium aliquam. Sed dui mauris, euismod
+at leo ac, ultrices posuere dui. Mauris risus purus, facilisis id varius
+eget, laoreet ac odio. Pellentesque et mattis metus, et elementum enim.
+Curabitur aliquam mi neque, sit amet aliquet turpis pharetra at. Cras
+euismod semper tortor eu mattis. Phasellus in dui et orci feugiat
+aliquam id vitae nisi. Pellentesque lacinia erat ut velit ornare
+hendrerit. Nam ut ultrices urna. Sed magna nibh, venenatis id eros ut,
+pretium gravida elit. Vestibulum eget scelerisque tortor. Donec eleifend
+neque non arcu condimentum volutpat. Morbi pellentesque efficitur erat,
+sed auctor augue fermentum eget. Curabitur vel placerat erat. Fusce
+bibendum, elit non aliquet semper, tortor nibh feugiat neque, eget
+dapibus augue urna quis dui.
+
+\hypertarget{methods-materials}{%
+\section{Methods \& Materials}\label{methods-materials}}
+
+\hypertarget{data}{%
+\subsection{Data}\label{data}}
+
+Phasellus eleifend quam et placerat dictum. Phasellus at ante nunc.
+Nulla eleifend porta nibh, a molestie urna consequat sed. Nullam laoreet
+commodo libero id sagittis. Cras sagittis elit sed diam laoreet
+hendrerit. Nam in arcu a dui sollicitudin aliquam sed mattis enim.
+Aliquam erat volutpat. Nulla commodo et turpis vel facilisis. Donec
+sagittis vel urna eu scelerisque. Phasellus condimentum bibendum erat,
+sit amet finibus lacus ultrices ac.
+
+Nam venenatis laoreet arcu sit amet pharetra. Duis accumsan ante nisl,
+eget tempus nulla posuere et. Sed bibendum, odio ut sollicitudin
+fermentum, dui sapien efficitur justo, ut cursus lorem augue a lorem.
+Sed molestie placerat neque ac laoreet. Pellentesque aliquet tristique
+quam, vel tristique ipsum mollis eu. Nulla rutrum mauris ultrices mauris
+maximus hendrerit. Mauris dapibus, dui sed congue luctus, purus dolor
+rhoncus elit, sit amet vulputate arcu nibh in velit. Phasellus ac lectus
+libero. Nulla leo velit, facilisis at finibus ac, iaculis vel ipsum.
+Integer fringilla nunc et turpis lobortis vehicula. In semper dui eu
+pharetra aliquam. Quisque luctus dictum ipsum, quis consequat dui
+fermentum sit amet. Quisque blandit imperdiet magna quis congue. In
+condimentum lacus eget massa rhoncus condimentum. Pellentesque in tempor
+tortor. Nam nunc purus, semper gravida augue id, accumsan posuere
+ligula.
+
+\hypertarget{model-performances}{%
+\subsection{Model Performances}\label{model-performances}}
+
+Donec dapibus elit eget nibh ullamcorper tristique. Praesent ultrices a
+ex at condimentum. Interdum et malesuada fames ac ante ipsum primis in
+faucibus. Sed tincidunt, sem vitae posuere vulputate, velit tellus
+iaculis est, in efficitur velit metus sed diam. Vestibulum convallis
+turpis ut lorem sagittis, eu pellentesque sem condimentum. Ut sit amet
+elementum velit. Vivamus ultricies eros ac eros porttitor feugiat.
+
+Nulla purus augue, mollis sed lacus vel, sollicitudin eleifend nunc.
+Praesent sit amet mi et orci aliquam ultrices. Aenean ullamcorper mattis
+sollicitudin. Proin non congue felis. Etiam imperdiet accumsan risus ac
+convallis. Orci varius natoque penatibus et magnis dis parturient
+montes, nascetur ridiculus mus. Morbi et molestie nunc.
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis
+sapien ipsum, et dapibus orci ornare quis. Curabitur eleifend cursus
+justo, non congue nisi faucibus nec. Curabitur sem leo, sollicitudin id
+tincidunt eu, venenatis et ante. Suspendisse at dapibus urna. Aenean
+vehicula malesuada dui, nec accumsan velit accumsan eu. Cras enim
+tellus, posuere eu mauris quis, posuere dapibus sapien. Aliquam ut erat
+ut risus posuere fermentum. Ut id viverra mauris, vel ullamcorper dui.
+Praesent leo tellus, scelerisque sit amet dignissim vel, eleifend at
+sem. Vivamus interdum sit amet erat venenatis interdum.
+
+Nam eget neque a velit facilisis dignissim. Nam eget sagittis quam. Sed
+massa elit, congue quis ipsum nec, sollicitudin vulputate ipsum. Fusce
+commodo, tellus quis ultricies vestibulum, nunc purus pellentesque
+ligula, vitae faucibus nisl dui efficitur lacus. Etiam blandit lacus at
+pellentesque pretium. Vivamus aliquam convallis sem vitae ultrices.
+Vestibulum maximus sem ut ex pulvinar hendrerit sit amet id velit.
+
+Duis tristique ipsum purus, vel porttitor magna ultricies quis.
+Phasellus eu purus eu velit aliquet condimentum quis quis lorem. Fusce
+non fringilla nisi, et aliquet ipsum. Aenean id hendrerit nunc. Morbi
+mollis sollicitudin orci ut auctor. Curabitur non elit accumsan,
+ultricies libero sed, facilisis leo. Etiam sodales imperdiet dolor, a
+cursus enim vehicula ut. Donec eleifend aliquam maximus. Quisque sit
+amet erat metus. Nulla blandit, augue vel commodo facilisis, mi risus
+viverra diam, vel varius ex ex ac dui. In vel neque quis arcu vestibulum
+pulvinar in in elit. Aliquam erat volutpat. Ut erat libero, rhoncus sit
+amet dictum sit amet, ultricies lobortis massa.
+
+Vestibulum ornare volutpat sem. Vivamus eleifend ligula vel mauris
+facilisis congue. Mauris eget metus tellus. Proin congue lorem id nunc
+tristique, a tristique turpis semper. Nullam sodales, urna ut posuere
+accumsan, urna nisl tincidunt dui, in pellentesque sapien libero id mi.
+In sem sem, auctor a laoreet ut, rutrum eget risus. Proin in magna
+risus. Donec varius sit amet nunc et ullamcorper. Nam vehicula, odio sed
+rhoncus consectetur, mauris sem tempus ipsum, vitae venenatis sem neque
+a enim. Aliquam tempus dapibus congue. Sed pulvinar nec turpis a
+porttitor. Integer eros justo, posuere non scelerisque ut, viverra et
+nunc. Fusce iaculis elit eu turpis ultricies, et vestibulum nulla
+rhoncus.
+
+Quisque ultrices felis ut lacinia dictum. Aliquam ornare lacinia nisi,
+sed mattis ante blandit in. Sed dapibus lacus at tempus vestibulum.
+Donec ut quam vitae ligula fringilla ullamcorper. Vestibulum semper nisi
+sed porta egestas. Sed fermentum ante in volutpat rutrum. In quis
+tincidunt nisi. In hac habitasse platea dictumst. Mauris tincidunt lacus
+at viverra sodales.
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
+cubilia curae; Proin ultrices sem lorem, at efficitur sem facilisis
+vitae. Etiam porttitor urna sed accumsan congue. Duis dictum mollis
+erat, vel egestas arcu elementum sed. Ut vitae sollicitudin eros. Nam
+interdum quam at dolor fermentum, ut bibendum diam ullamcorper. Sed
+hendrerit, magna eget aliquet rhoncus, massa nunc malesuada quam, ut
+interdum est mauris at eros. Ut ut maximus urna, et convallis nulla.
+Etiam sed sapien nec magna fermentum suscipit. Duis aliquam ultrices
+lectus, elementum ullamcorper lorem interdum non. Donec tincidunt velit
+ac aliquam interdum. Aliquam ultricies leo vitae risus venenatis
+dignissim a in tellus.
+
+Suspendisse potenti. Donec pulvinar, purus non lobortis malesuada, nibh
+est feugiat erat, non facilisis ligula felis at ante. Curabitur nisl
+enim, tempor eu mauris ac, porta molestie dolor. Proin at sapien nec
+metus molestie varius quis id ligula. Nunc iaculis tempor nunc eget
+sagittis. Duis finibus nisl blandit ipsum pretium faucibus. Quisque
+ultricies nulla congue, molestie orci ut, ullamcorper nisl. Integer
+vitae placerat nibh, nec tristique nisi. Suspendisse consequat magna et
+enim feugiat, non feugiat mi vestibulum. Proin in erat in nunc bibendum
+auctor quis sit amet metus. Aliquam sodales posuere lacus in pretium.
+Praesent tortor justo, gravida nec aliquam eget, iaculis ac mauris.
+
+Sed dapibus in sapien a pretium. Sed ut vehicula felis. Morbi pulvinar
+enim vel viverra commodo. Quisque at semper leo. Donec eu nisi tincidunt
+lorem tincidunt commodo. Integer consectetur consequat lacus sit amet
+posuere. Nullam ac tristique erat. Ut euismod congue hendrerit. Fusce
+feugiat vel odio eu interdum.
+
+\hypertarget{acknowledgment}{%
+\subsection{Acknowledgment}\label{acknowledgment}}
+
+This preprint was created using the MdPreprint template
+(\url{https://github.com/clementviolet/MdPreprint}) by Clément Violet,
+based on the great work of Mikkel Roald-Arbøl
+(\url{https://github.com/roaldarbol/lapreprint}).
+
+\hypertarget{author-contributions}{%
+\subsection{Author contributions}\label{author-contributions}}
+
+Consider using a contribution table for clarity. I may add it later.
+Conceptualization: E.S., B.H.; Methodology: B.H.; Software: B.H.;
+Validation: S.R.; Formal analysis: S.R.; Investigation: E.S.; Resources:
+B.H.; Writing - original draft: E.S.; Writing - review \& editing: S.R.,
+B.H.; Visualization: S.R.; Supervision: B.H.; Project administration:
+B.H.; Funding acquisition: B.H.
+
+(According to
+\href{https://journals.biologists.com/jeb/pages/author-contributions}{https://journals.biologists.com/jeb/pages/author-contributions)}{]}
+)
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-Bezuidenhout2021}{}}%
+Bezuidenhout, Louise, and Johanna Havemann. 2021. {``The Varying
+Openness of Digital Open Science Tools.''} F1000Research.
+\url{https://doi.org/10.12688/f1000research.26615.2}.
+
+\end{CSLReferences}
+
+% DON'T EDIT. If "endfloat" option is enabled all floats appear before appendices
+\if@endfloat\clearpage\processdelayedfloats\clearpage\fi 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% SUPPLEMENTARY MATERIAL / APPENDICES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Sadly, we can't use floats in the appendix boxes. So they don't "float", but use \captionof{figure}{...} and \captionof{table}{...} to get them properly caption.
+
+
+% appendixbox not supported
+
+\begin{appendix}
+  \begin{appendixbox}
+  \section{TTT, by Piet Hein}
+
+  Problems worthy \textbackslash{} of attack \textbackslash{} prove their
+  worth \textbackslash{} by hitting back. \textbackslash{}
+  \textbackslash{} Put up in a place \textbackslash{} where it's easy to
+  see \textbackslash{} the cryptic admonishment\textbackslash{} T.T.T.
+  \textbackslash{} \textbackslash{} When you feel how depressingly
+  \textbackslash{} slowly you climb, \textbackslash{} it's well to
+  remember that\textbackslash{} Things Take Time. \textbackslash{}
+  \textbackslash{} The road to wisdom? - Well, it's plain\textbackslash{}
+  and simple to express: \textbackslash{} Err \textbackslash{} and err
+  \textbackslash{} and err again \textbackslash{} but less
+  \textbackslash{} and less \textbackslash{} and less. \textbackslash{}
+  \end{appendixbox}
+  \begin{appendixbox}
+  \section{Key resources}
+
+  Here could be a nice table of your resources.
+  \end{appendixbox}\end{appendix}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE END
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
