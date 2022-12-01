@@ -163,7 +163,10 @@ interests.}
 % % \input{src/chapters/abstract}
 \begin{abstract}
 
-This tempalte is an adaptation of
+This tempalte is an adaptation of LaPreprint template for creating
+approximatly the same LaTeX document and a Word document due to pandoc
+power. To enjoy all the options of LaPreprint, you just have to modify
+the fields of the metadata.json file.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
 sodales sapien est, id laoreet metus elementum a. Vestibulum sed magna
@@ -181,8 +184,11 @@ orci sapien.
 \section{Introduction}\label{introduction}}
 
 Use \# section and \#\# subsection tags to organise your document.
-Cross-referencing is handle by pandoc-xnos filters (I guess ?). You can
-use XX commands for cross-referencing sectional headings.
+Cross-referencing is handle by pandoc itself. You can use
+\protect\hyperlink{introduction}{heading identifiers} commands for
+cross-referencing sectional headings. See the
+\href{https://pandoc.org/MANUAL.html\#extension-auto_identifiers}{pandoc
+documentation} for more details.
 
 Nullam lacus velit, posuere quis tortor in, commodo porttitor tellus.
 Vestibulum ac dolor ac sapien convallis lacinia. Nam facilisis iaculis
@@ -276,7 +282,7 @@ documentation for more informations). --\textgreater{}
 \subsection{Citations}\label{citations}}
 
 For citation, the module citeproc of pandoc is used, like this
-Bezuidenhout and Havemann
+Bezuidenhout \& Havemann
 (\protect\hyperlink{ref-Bezuidenhout2021}{2021}) (see
 \href{https://pandoc.org/MANUAL.html\#citations}{pandoc citeproc} and
 \href{https://pandoc.org/MANUAL.html\#extension-citations}{pandoc
@@ -567,9 +573,9 @@ B.H.; Funding acquisition: B.H.
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-Bezuidenhout2021}{}}%
-Bezuidenhout, Louise, and Johanna Havemann. 2021. {``The Varying
-Openness of Digital Open Science Tools.''} F1000Research.
-\url{https://doi.org/10.12688/f1000research.26615.2}.
+Bezuidenhout, L. \& Havemann, J. (2021).
+\href{https://doi.org/10.12688/f1000research.26615.2}{The varying
+openness of digital open science tools}.
 
 \end{CSLReferences}
 

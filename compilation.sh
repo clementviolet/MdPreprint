@@ -30,7 +30,8 @@ pandoc -f markdown -t docx chapters/00-abstract.md main.md \
   supplementary/07-appendices.md  supplementary/08-resources.md \
   -o preprint.docx --metadata-file=../metadata.json \
   --filter pandoc-fignos --filter pandoc-tablenos \
-  --citeproc --bibliography=references.json
+  --citeproc --bibliography=references.json \
+  --csl=template/ecology-letters.cls
 
 
 echo "PDF Document" 
@@ -41,7 +42,8 @@ cp template/lapreprint.cls lapreprint.cls
 
 pandoc -f markdown -t latex main.md -o preprint.tex --template=template.tex \
     --filter pandoc-xnos --metadata-file=../metadata.json \
-    --citeproc --bibliography=references.json
+    --citeproc --bibliography=references.json \
+    --csl=template/ecology-letters.cls
 
 latexmk preprint.tex -lualatex --file-line-error --interaction=nonstopmode && latexmk -c
 
