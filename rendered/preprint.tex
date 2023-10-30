@@ -33,11 +33,12 @@
 \usepackage{colortbl}   % For Knitr table colouring
 \usepackage{tabularx}   % For making Knitr tables compatible
 \usepackage{longtable}  % For multi-page tables
-\usepackage{subcaption}
-\usepackage{cleveref} % For fig, table and equation numbering
 \usepackage{multirow}
 \usepackage{snotez}     % For sidenote environments. enotez for endnotes
 \usepackage{csquotes}   % For language-based quote rules (helps BiBLaTeX)
+
+% Custom packages
+% Place custom packages here
 
 \providecommand{\tightlist}{% Command for list
 \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -51,6 +52,41 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+\makeatletter
+\@ifpackageloaded{subfig}{}{\usepackage{subfig}}
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\captionsetup[subfloat]{margin=0.5em}
+\AtBeginDocument{%
+\renewcommand*\figurename{Figure}
+\renewcommand*\tablename{Table}
+}
+\AtBeginDocument{%
+\renewcommand*\listfigurename{List of Figures}
+\renewcommand*\listtablename{List of Tables}
+}
+\newcounter{pandoccrossref@subfigures@footnote@counter}
+\newenvironment{pandoccrossrefsubfigures}{%
+\setcounter{pandoccrossref@subfigures@footnote@counter}{0}
+\begin{figure}\centering%
+\gdef\global@pandoccrossref@subfigures@footnotes{}%
+\DeclareRobustCommand{\footnote}[1]{\footnotemark%
+\stepcounter{pandoccrossref@subfigures@footnote@counter}%
+\ifx\global@pandoccrossref@subfigures@footnotes\empty%
+\gdef\global@pandoccrossref@subfigures@footnotes{{##1}}%
+\else%
+\g@addto@macro\global@pandoccrossref@subfigures@footnotes{, {##1}}%
+\fi}}%
+{\end{figure}%
+\addtocounter{footnote}{-\value{pandoccrossref@subfigures@footnote@counter}}
+\@for\f:=\global@pandoccrossref@subfigures@footnotes\do{\stepcounter{footnote}\footnotetext{\f}}%
+\gdef\global@pandoccrossref@subfigures@footnotes{}}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
 
 %% pandoc-tablenos: required package
 \usepackage{caption}
@@ -85,41 +121,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% BIBLIOGRAPHY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \usepackage[			% use biblatex for bibliography
-% 	backend=biber,      % use biber or bibtex backend
-%     style=authoryear,   % choose style
-% 	natbib=true,		% allow natbib commands
-% 	hyperref=true,	    % activate hyperref support
-% 	alldates=year,      % only show year (not month)
-% ]{biblatex}
+\usepackage[			% use biblatex for bibliography
+	backend=biber,      % use biber or bibtex backend
+  style=authoryear,   % choose style
+	hyperref=true,	    % activate hyperref support
+	alldates=year,      % only show year (not month)
+]{biblatex}
 
 % Update to your bibliography file
-% \addbibresource{src/bibliography.bib}
-
-% For Pandoc citeproc module support
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newlength{\cslentryspacingunit} % times entry-spacing
-\setlength{\cslentryspacingunit}{\parskip}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1
-  \let\oldpar\par
-  \def\par{\hangindent=\cslhangindent\oldpar}
-  \fi
-  % set entry spacing
-  \setlength{\parskip}{#2\cslentryspacingunit}
- }%
- {}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\addbibresource{bibliography.bib}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ARTICLE SETUP
@@ -141,7 +151,7 @@
 Hove, Great Britain}
 
 % Other metadata. Feel free to add your own
-\metadata[]{\Letter\hspace{.5ex} For correspondence}{\url{https://github.com/clementviolet/MdPreprint/issues}}
+\metadata[]{\Letter\hspace{.5ex} For correspondence}{\href{mailto:}{https://github.com/clementviolet/MdPreprint/issues}}
 \metadata[]{Present address}{IFREMER, Centre de Bretagne, DYNECO LEBCO,
 Plouzané 29280, France.}
 \metadata[]{Data availability}{Data availability statement. Preprocessed
@@ -152,7 +162,7 @@ interests.}
 
 % Surname of the lead author(s) for the running footer
 \leadauthor{Violet}
-\shorttitle{A Preprint for Template for pandoc rendering LaTeX \& Word}
+\shorttitle{A Preprint for Template for pandoc LaTeX \& Word}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ARTICLE START
@@ -160,7 +170,7 @@ interests.}
 
 \begin{document}
 \maketitle
-% % \input{src/chapters/abstract}
+
 \begin{abstract}
 
 This tempalte is an adaptation of LaPreprint template for creating
@@ -216,14 +226,14 @@ You can use all kind of tables supported by pandoc. See the
 \href{https://pandoc.org/MANUAL.html\#tables}{pandoc} documentation for
 more informations.
 
+\hypertarget{tbl:exemple}{}
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1667}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1389}}
   >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3611}}@{}}
-\caption{Here's the caption.
-\label{tbl:exemple}}\label{tbl:exemple}\tabularnewline
-\toprule()
+\caption{\label{tbl:exemple}Here's the caption.}\tabularnewline
+\toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\centering
 Centered Header
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -233,9 +243,9 @@ Right Aligned
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Left Aligned
 \end{minipage} \\
-\midrule()
+\midrule\noalign{}
 \endfirsthead
-\toprule()
+\toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\centering
 Centered Header
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -245,15 +255,16 @@ Right Aligned
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Left Aligned
 \end{minipage} \\
-\midrule()
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 First & row & 12.0 & Example of a row that spans multiple lines. \\
 Second & row & 5.0 & Here's another one. Note the blank line between
 rows. \\
-\bottomrule()
 \end{longtable}
 
-You can refere to a tables like this \cref{tbl:exemple} (see
+You can refere to a tables like this +tbl.~\ref{tbl:exemple} (see
 \href{https://github.com/tomduck/pandoc-tablenos}{pandoc-tablenos}
 documentation for more informations).
 
@@ -274,7 +285,7 @@ Ovs} on
 \end{figure}
 
 Of course, you can refer to a figure, in the same way as the tables
-\cref{fig:brighton} (see
++fig.~\ref{fig:brighton} (see
 \href{https://github.com/tomduck/pandoc-fignos}{pandoc-fignos}
 documentation for more informations). --\textgreater{}
 
@@ -282,8 +293,7 @@ documentation for more informations). --\textgreater{}
 \subsection{Citations}\label{citations}}
 
 For citation, the module citeproc of pandoc is used, like this
-Bezuidenhout \& Havemann
-(\protect\hyperlink{ref-Bezuidenhout2021}{2021}) (see
+\textcite{Bezuidenhout2021} (see
 \href{https://pandoc.org/MANUAL.html\#citations}{pandoc citeproc} and
 \href{https://pandoc.org/MANUAL.html\#extension-citations}{pandoc
 citations} documentation)
@@ -322,15 +332,15 @@ and \(\text{Var}[X_i] = \sigma^2 < \infty\)
 distributed random variables with \(\text{E}[X_i] = \mu\) and
 \(\text{Var}[X_i] = \sigma^2 < \infty\), and let
 
-\begin{equation}
+\begin{equation}\protect\hypertarget{eq:mean}{}{
 S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
     = \frac{1}{n}\sum_{i}^{n} X_i
-\label{eq:mean}\end{equation}
+}\label{eq:mean}\end{equation}
 
 denote their mean. Then as \(n\) approaches infinity, the random
 variables \(\sqrt{n}(S_n - \mu)\) converge in distribution to a normal
 \(\mathcal{N}(0, \sigma^2)\). You can refer to an equation like this
-\cref{eq:mean} (see
++eq.~\ref{eq:mean} (see
 \href{https://github.com/tomduck/pandoc-eqnos\#markdown-syntax}{pandoc-eqnos}
 for more informations).
 
@@ -566,56 +576,17 @@ B.H.; Funding acquisition: B.H.
 \href{https://journals.biologists.com/jeb/pages/author-contributions}{https://journals.biologists.com/jeb/pages/author-contributions)}{]}
 )
 
-\hypertarget{references}{%
-\section*{References}\label{references}}
-\addcontentsline{toc}{section}{References}
-
-\hypertarget{refs}{}
-\begin{CSLReferences}{1}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-Bezuidenhout2021}{}}%
-Bezuidenhout, L. \& Havemann, J. (2021).
-\href{https://doi.org/10.12688/f1000research.26615.2}{The varying
-openness of digital open science tools}.
-
-\end{CSLReferences}
-
 % DON'T EDIT. If "endfloat" option is enabled all floats appear before appendices
 \if@endfloat\clearpage\processdelayedfloats\clearpage\fi 
 
+\printbibliography[heading=bibintoc, title={References}]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% SUPPLEMENTARY MATERIAL / APPENDICES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Sadly, we can't use floats in the appendix boxes. So they don't "float", but use \captionof{figure}{...} and \captionof{table}{...} to get them properly caption.
 
-
-% appendixbox not supported
-
-\begin{appendix}
-  \begin{appendixbox}
-  \section{TTT, by Piet Hein}
-
-  Problems worthy \textbackslash{} of attack \textbackslash{} prove their
-  worth \textbackslash{} by hitting back. \textbackslash{}
-  \textbackslash{} Put up in a place \textbackslash{} where it's easy to
-  see \textbackslash{} the cryptic admonishment\textbackslash{} T.T.T.
-  \textbackslash{} \textbackslash{} When you feel how depressingly
-  \textbackslash{} slowly you climb, \textbackslash{} it's well to
-  remember that\textbackslash{} Things Take Time. \textbackslash{}
-  \textbackslash{} The road to wisdom? - Well, it's plain\textbackslash{}
-  and simple to express: \textbackslash{} Err \textbackslash{} and err
-  \textbackslash{} and err again \textbackslash{} but less
-  \textbackslash{} and less \textbackslash{} and less. \textbackslash{}
-  \end{appendixbox}
-  \begin{appendixbox}
-  \section{Key resources}
-
-  Here could be a nice table of your resources.
-  \end{appendixbox}\end{appendix}
-
-
-
-
+% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ARTICLE END
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

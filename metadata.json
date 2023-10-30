@@ -11,7 +11,7 @@
             "name": "en-UK",
             "options": ""
     },
-    "appendix": true,
+    "appendix": false,
     "author": [
         "Clément Violet",
         "Mikkel Roald-Arbøl"
